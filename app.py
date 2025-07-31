@@ -31,23 +31,13 @@ def check_appointments():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
 
-    # For Render deployment
-    chrome_bin = os.getenv('GOOGLE_CHROME_BIN')
-    chromedriver_path = os.getenv('CHROMEDRIVER_PATH')
-
-    if chrome_bin:
-        chrome_options.binary_location = chrome_bin
-
     driver = None
     try:
         try:
-            if chromedriver_path:
-                service = webdriver.ChromeService(executable_path=chromedriver_path)
-                driver = webdriver.Chrome(service=service, options=chrome_options)
-            else:
-                driver = webdriver.Chrome(options=chrome_options)
+            # With Nixpacks installing Chrome and Chromedriver, we can rely on the system PATH.
+            driver = webdriver.Chrome(options=chrome_options)
         except Exception as e:
-            log('Could not start ChromeDriver. Make sure Chrome and ChromeDriver are installed and on your PATH, or environment variables are set for Render.')
+            log('Could not start ChromeDriver. Ensure Nixpacks is configured correctly in railway.json.')
             log(str(e))
             return
         driver.get(config.TARGET_URL)
