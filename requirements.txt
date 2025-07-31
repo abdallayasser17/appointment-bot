@@ -7,3 +7,4 @@ schedule
 # Uncomment the next line if using Twilio
 # twilio 
 selenium 
+chromedriver-autoinstaller

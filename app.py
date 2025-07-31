@@ -15,6 +15,9 @@ import config
 import sys
 import requests
 
+import chromedriver_autoinstaller
+chromedriver_autoinstaller.install()
+
 def log(msg):
     if getattr(config, 'ENABLE_LOGGING', False):
         print(f"[LOG] {msg}")
