@@ -1,9 +1,4 @@
 requests
-beautifulsoup4
 schedule
-# smtplib
-# email
-# For optional SMS notifications
-# Uncomment the next line if using Twilio
-# twilio 
-selenium 
+selenium
+python-dotenv
