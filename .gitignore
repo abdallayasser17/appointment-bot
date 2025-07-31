@@ -8,3 +8,9 @@ __pycache__/
 
 # Logs
 *.log
+
+# Environment variables
+.env
+
+# Configuration file with secrets
+config.py

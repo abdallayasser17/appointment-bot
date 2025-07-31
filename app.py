@@ -11,9 +11,10 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 # from twilio.rest import Client  # Uncomment if using Twilio
-import config
+import get_config as config
 import sys
 import requests
+import os
 
 import chromedriver_autoinstaller
 chromedriver_autoinstaller.install()
@@ -32,12 +33,24 @@ def check_appointments():
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
+
+    # For Render deployment
+    chrome_bin = os.getenv('GOOGLE_CHROME_BIN')
+    chromedriver_path = os.getenv('CHROMEDRIVER_PATH')
+
+    if chrome_bin:
+        chrome_options.binary_location = chrome_bin
+
     driver = None
     try:
         try:
-            driver = webdriver.Chrome(options=chrome_options)
+            if chromedriver_path:
+                service = webdriver.ChromeService(executable_path=chromedriver_path)
+                driver = webdriver.Chrome(service=service, options=chrome_options)
+            else:
+                driver = webdriver.Chrome(options=chrome_options)
         except Exception as e:
-            log('Could not start ChromeDriver. Make sure Chrome and ChromeDriver are installed and on your PATH.')
+            log('Could not start ChromeDriver. Make sure Chrome and ChromeDriver are installed and on your PATH, or environment variables are set for Render.')
             log(str(e))
             return
         driver.get(config.TARGET_URL)
